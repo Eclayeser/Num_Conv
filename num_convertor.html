@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="website_css.css">
+        <title>Number Convertor Website</title>
+    </head>
+    <body>
+        <h1>Number Converter</h1>
+        <hr>
+        <h2>Available conversions:</h2>
+        <ol>
+            <li>
+                <ul>
+                    <li>Denary -> Binary</li>
+                    <li>Denary -> Hexadecimal</li>
+                </ul>
+            </li>
+            <li>
+                <ul>
+                    <li>Binary -> Denary</li>
+                    <li>Binary -> Hexadecimal</li>
+                </ul>
+            </li>
+            <li>
+                <ul>
+                    <li>Hexadecimal -> Denary</li>
+                    <li>Hexadecimal -> Binary</li>
+                </ul>
+            </li>
+        </ol>
+        <hr>
+        <h3>Conversion of denary, binary and hexadecimal numbers</h3>
+        <form>
+            <label for="input" style="margin-left: 45px;">Enter here:</label>
+            <input type="text" id="input" placeholder="Enter a number to convert">
+        </form>
+        <p><br></p>
+        <table id="table">
+            <tr>
+                <td><input class="btn" type="button" id="btnDtB" value="From Denary to Binary"></td>
+                <td><input class="btn" type="button" id="btnBtD" value="From Binary to Denary"></td>
+                <td><input class="btn" type="button" id="btnHtD" value="From Hexadecimal to Denary"></td>
+            </tr>
+            <tr>
+                <td><input class="btn" type="button" id="btnDtH" value="From Denary to Hexadecimal"></td>
+                <td><input class="btn" type="button" id="btnBtH" value="From Binary to Hexadecimal"></td>
+                <td><input class="btn" type="button" id="btnHtB" value="From Hexadecimal to Binary"></td>
+            </tr>
+        </table> 
+        <p></p>
+        <p class="output" id="output1" style="margin-left: 50px;"></p>
+        
+
+        
+        
+        <script>
+            
+            var number = document.getElementById("input");
+            var output1 = document.getElementById("output1");
+            
+            const buttonDtB = document.getElementById("btnDtB");
+            const buttonDtH = document.getElementById("btnDtH");
+            const buttonBtD = document.getElementById("btnBtD");
+            const buttonBtH = document.getElementById("btnBtH");
+            const buttonHtD = document.getElementById("btnHtD");
+            const buttonHtB = document.getElementById("btnHtB");
+            
+
+            buttonDtB.addEventListener("click", function(e) {
+                list_den = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+                var checks = 0;
+                var denary = true;
+                var result = "";
+
+                for (let j = 0; j < number.value.length; j++){
+                    for (let y = 0; y < list_den.length; y++){
+                        if (number.value[j] == list_den[y]){
+                            checks += 1           
+                        }
+                    }
+                    if (checks == 0){
+                        denary = false
+                        break
+                    }
+                    else {
+                        checks = 0;
+                    }
+                }
+
+                if (denary == true){
+                    if (number.value == 0){
+                        result = 0
+                        output1.innerHTML = "Binary: " + result ;
+                    }
+                    else{
+                        var safe_num = number.value;
+                        while (safe_num != 0 && safe_num >= 0){
+                        var remainder = safe_num % 2
+                        safe_num = Math.floor(safe_num/2);
+                        result = String(remainder).concat(result)
+                        }
+                        output1.innerHTML = "Binary: " + result ;
+                    }
+                }
+
+                else{
+                    output1.innerHTML = "A denary number must only include digits from 0 to 9" ;
+                }
+            })
+
+
+
+            buttonDtH.addEventListener("click", function(e) {
+                var result = "";
+                list_den = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+                var checks = 0;
+                var denary = true;
+                
+                for (let j = 0; j < number.value.length; j++){
+                    for (let y = 0; y < list_den.length; y++){
+                        if (number.value[j] == list_den[y]){
+                            checks += 1           
+                        }
+                    }
+                    if (checks == 0){
+                        denary = false
+                        break
+                    }
+                    else {
+                        checks = 0;
+                    }
+                }
+
+                if (denary == true){
+                    if (number.value == 0){
+                        result = 0
+                        output1.innerHTML = "Hexadecimal: " + result;
+                    }
+                    else{
+                        var safe_num = number.value;
+                        while (safe_num != 0 && safe_num >= 0){
+                            var remainder = safe_num % 16
+                            if (remainder == 10){
+                                remainder = "A"
+                            } 
+                            else if (remainder == 11){
+                                remainder = "B"
+                            }
+                            else if (remainder == 12){
+                                remainder = "C"
+                            }
+                            else if (remainder == 13){
+                                remainder = "D"
+                            }
+                            else if (remainder == 14){
+                                remainder = "E"
+                            }
+                            else if (remainder == 15){
+                                remainder = "F"
+                            }
+                            safe_num = Math.floor(safe_num/16);
+                            result = String(remainder).concat(result)
+                        }
+                        output1.innerHTML = "Hexadecimal: " + result;
+                    }
+                }
+                else{
+                    output1.innerHTML = "A denary number must only include digits from 0 to 9" ;
+                }
+            })
+
+
+
+            buttonBtD.addEventListener("click", function(e) {
+                var binary = true;
+                var result = "";
+                for (let j = 0; j < number.value.length; j++){
+                    if (number.value[j] != "0" && number.value[j] != "1"){
+                        binary = false
+                    }
+                }
+
+                if (binary == true){
+                    for (let i = 0; i < number.value.length; i++){
+                        result = ((2 ** i) * Number(number.value[number.value.length-(i+1)])) + Number(result)
+                    }
+                    output1.innerHTML = "Denary: " + result;
+                }
+                else {
+                    output1.innerHTML = "A binary number must only include 0s and 1s" ;
+                }
+            })
+
+
+
+            buttonBtH.addEventListener("click", function(e) {
+                var binary = true;
+                var result = "";
+                var final_result = "";
+
+                for (let j = 0; j < number.value.length; j++){
+                    if (number.value[j] != "0" && number.value[j] != "1"){
+                        binary = false
+                    }
+                }
+
+                if (binary == true){
+                    for (let i = 0; i < number.value.length; i++){
+                        result = ((2 ** i) * Number(number.value[number.value.length-(i+1)])) + Number(result)
+                    }
+                    result = Number(result)
+                    if (result == 0){
+                        output1.innerHTML = "Hexadecimal: " + result ;
+                    }
+                    else{
+                        while (result != 0 && result >= 0){
+                            var remainder = result % 16
+                            if (remainder == 10){
+                                remainder = "A"
+                            } 
+                            else if (remainder == 11){
+                                remainder = "B"
+                            }
+                            else if (remainder == 12){
+                                remainder = "C"
+                            }
+                            else if (remainder == 13){
+                                remainder = "D"
+                            }
+                            else if (remainder == 14){
+                                remainder = "E"
+                            }
+                            else if (remainder == 15){
+                                remainder = "F"
+                            }
+                            result = Math.floor(result/16);
+                            final_result = String(remainder).concat(final_result)
+                        }
+                        output1.innerHTML = "Hexadecimal: " + final_result ;
+                    } 
+                }
+                else {
+                    output1.innerHTML = "A binary number must only include 0s and 1s" ;
+                }
+            })
+            
+
+
+            buttonHtD.addEventListener("click", function(e) {
+                var result = "";
+                var checks = 0;
+                var hexadecimal = true;
+                list_hex = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"];
+
+                for (let j = 0; j < number.value.length; j++){
+                    for (let y = 0; y < list_hex.length; y++){
+                        if (number.value[j] == list_hex[y]){
+                            checks += 1           
+                        }
+                    }
+                    if (checks == 0){
+                        hexadecimal = false
+                        break
+                    }
+                    else {
+                        checks = 0;
+                    }
+                }
+
+                if (hexadecimal == false){
+                    output1.innerHTML = "A hexadecimal number must only include digits from 0 to 9 and/or letter A-F" ;
+                }
+                else {
+                    for (let i = 0; i < number.value.length; i++){
+                        if ((number.value[number.value.length-(i+1)] < 10) || (number.value[number.value.length-(i+1)] >= 0)){
+                            result = ((16 ** i) * Number(number.value[number.value.length-(i+1)])) + Number(result)
+                        }
+                        else if (number.value[number.value.length-(i+1)] == "A"){
+                            result = ((16 ** i) * 10) + Number(result)
+                        }
+                        else if (number.value[number.value.length-(i+1)] == "B"){
+                            result = ((16 ** i) * 11) + Number(result)
+                        }
+                        else if (number.value[number.value.length-(i+1)] == "C"){
+                            result = ((16 ** i) * 12) + Number(result)
+                        }
+                        else if (number.value[number.value.length-(i+1)] == "D"){
+                            result = ((16 ** i) * 13) + Number(result)
+                        }
+                        else if (number.value[number.value.length-(i+1)] == "E"){
+                            result = ((16 ** i) * 14) + Number(result)
+                        }
+                        else if (number.value[number.value.length-(i+1)] == "F"){
+                            result = ((16 ** i) * 15) + Number(result)
+                        }
+                    }
+                    output1.innerHTML = "Denary: " + result ;
+                }
+            })
+
+
+            
+            buttonHtB.addEventListener("click", function(e) {
+                var checks = 0;
+                var result = "";
+                var final_result = "";
+                var hexadecimal = true;
+                list_hex = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"];
+
+                for (let j = 0; j < number.value.length; j++){
+                    for (let y = 0; y < list_hex.length; y++){
+                        if (number.value[j] == list_hex[y]){
+                            checks += 1           
+                        }
+                    }
+                    if (checks == 0){
+                        hexadecimal = false
+                        break
+                    }
+                    else {
+                        checks = 0;
+                    }
+                }
+
+                if (hexadecimal == false){
+                    output1.innerHTML = "A hexadecimal number must only include digits from 0 to 9 and/or letter A-F" ;
+                }
+                else {
+                    for (let i = 0; i < number.value.length; i++){
+                        if ((number.value[number.value.length-(i+1)] < 10) || (number.value[number.value.length-(i+1)] >= 0)){
+                            result = ((16 ** i) * Number(number.value[number.value.length-(i+1)])) + Number(result)
+                        }
+                        else if (number.value[number.value.length-(i+1)] == "A"){
+                            result = ((16 ** i) * 10) + Number(result)
+                        }
+                        else if (number.value[number.value.length-(i+1)] == "B"){
+                            result = ((16 ** i) * 11) + Number(result)
+                        }
+                        else if (number.value[number.value.length-(i+1)] == "C"){
+                            result = ((16 ** i) * 12) + Number(result)
+                        }
+                        else if (number.value[number.value.length-(i+1)] == "D"){
+                            result = ((16 ** i) * 13) + Number(result)
+                        }
+                        else if (number.value[number.value.length-(i+1)] == "E"){
+                            result = ((16 ** i) * 14) + Number(result)
+                        }
+                        else if (number.value[number.value.length-(i+1)] == "F"){
+                            result = ((16 ** i) * 15) + Number(result)
+                        }
+                    }
+                    if (result == 0){
+                        output1.innerHTML = "Binary: " +  result ;
+                    }
+                    else {
+                        while (result != 0 && result >= 0){
+                            var remainder = result % 2
+                            result = Math.floor(result/2);
+                            final_result = String(remainder).concat(final_result)
+                        }
+                        output1.innerHTML = "Binary: " +  final_result ;
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>
